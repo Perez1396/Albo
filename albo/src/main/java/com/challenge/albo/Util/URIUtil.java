@@ -3,20 +3,20 @@ package com.challenge.albo.Util;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 
-final class URLUtil {
+public final class URIUtil {
     private final String baseUri;
     private final String publicApiKey;
     private final String privateApiKey;
     private final long timestamp;
 
-    URLUtil(String baseUri, String publicApiKey, String privateApiKey) {
+    public URIUtil(String baseUri, String publicApiKey, String privateApiKey) {
         this.baseUri = baseUri;
         this.publicApiKey = publicApiKey;
         this.privateApiKey = privateApiKey;
         this.timestamp = Instant.now().toEpochMilli();
     }
 
-    String builder() throws NoSuchAlgorithmException {
+    public String builder(){
         return baseUri + "?ts=%s&apikey=%s&hash=%s&limit=100";
     }
 
