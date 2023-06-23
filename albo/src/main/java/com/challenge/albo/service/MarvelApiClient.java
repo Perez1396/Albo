@@ -1,7 +1,6 @@
 package com.challenge.albo.service;
 
 import com.challenge.albo.Util.MD5Util;
-import com.challenge.albo.model.CharacterDataWrapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,11 +15,9 @@ public class MarvelApiClient {
     private static final String API_BASE_URL = "https://gateway.marvel.com/v1/public/";
     private static final String API_PUBLIC_KEY = "f9e8da00cb3e44c035d296d3915e3c66";
     private static final String API_PRIVATE_KEY = "4a262e1eca21ff04dac0069723095ab461af5166";
-    private static Gson gson;
 
 
     public static String sendRequest(String endpoint) throws IOException, NoSuchAlgorithmException {
-        gson = new GsonBuilder().create();
         String fullUrl = API_BASE_URL + endpoint + "?apikey=" + API_PUBLIC_KEY;
         long timestamp = System.currentTimeMillis();
         String hash = MD5Util.generateMD5Hash(timestamp+API_PRIVATE_KEY+API_PUBLIC_KEY);
@@ -39,8 +36,6 @@ public class MarvelApiClient {
 
         reader.close();
         connection.disconnect();
-
-        CharacterDataWrapper character = gson.fromJson(response.toString(), CharacterDataWrapper.class);
 
         return response.toString();
     }

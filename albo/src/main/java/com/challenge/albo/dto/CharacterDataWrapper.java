@@ -1,4 +1,4 @@
-package com.challenge.albo.model;
+package com.challenge.albo.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +13,6 @@ public class CharacterDataWrapper {
     @Getter
     @Setter
     public static class CharacterDataContainer {
-        private List<Character> results;
+        private List<CharacterDataJson> results;
     }
 }
