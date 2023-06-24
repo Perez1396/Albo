@@ -2,6 +2,7 @@ package com.challenge.albo.controller;
 
 import com.challenge.albo.dto.CharacterResponseWrapper;
 import com.challenge.albo.dto.ComicResponse;
+import com.challenge.albo.exception.MarvelException;
 import com.challenge.albo.service.CharacterService;
 import com.challenge.albo.service.ComicService;
 import io.swagger.annotations.Api;
@@ -31,14 +32,14 @@ public class CharacterController {
 
     @GetMapping(CHARACTER_PATH)
     @ApiOperation(value = "Retrieve the name of the comics given a character.")
-    public ResponseEntity<?> getCharacter() throws NoSuchAlgorithmException, IOException {
+    public ResponseEntity<?> getCharacter() throws NoSuchAlgorithmException, IOException, MarvelException {
         CharacterResponseWrapper characterResponse = characterService.getCharacterInformation();
         return new ResponseEntity<>(characterResponse, HttpStatus.OK);
     }
 
     @GetMapping(CHARACTER_PATH + CHARACTER_BY_ID_PATH)
     @ApiOperation(value = "Retrieve the name of the editors, writers and colorist of the comics given a character.")
-    public ResponseEntity<?> getComicsByIdCharacter(@ApiParam(value = "Id of the character.", required = true) @PathVariable Long idCharacter) throws NoSuchAlgorithmException, IOException {
+    public ResponseEntity<?> getComicsByIdCharacter(@ApiParam(value = "Id of the character.", required = true) @PathVariable Long idCharacter) throws NoSuchAlgorithmException, IOException, MarvelException {
         ComicResponse comicResponse = comicService.getComicById(idCharacter);
         return new ResponseEntity<>(comicResponse, HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package com.challenge.albo.service.Impl;
 import com.challenge.albo.dto.CharacterDataJson;
 import com.challenge.albo.dto.CharacterDataWrapper;
 import com.challenge.albo.dto.CharacterResponseWrapper;
+import com.challenge.albo.exception.MarvelException;
 import com.challenge.albo.repository.CharacterRepository;
 import com.challenge.albo.repository.ComicRepository;
 import org.junit.Assert;
@@ -41,7 +42,7 @@ class CharacterServiceImplTest {
     }
 
     @Test
-    void getCharacterInformation_SuccessfulRequest_ReturnsCharacterResponseWrapper() {
+    void getCharacterInformation_SuccessfulRequest_ReturnsCharacterResponseWrapper() throws MarvelException {
         CharacterDataWrapper characterDataWrapper = new CharacterDataWrapper();
         CharacterDataWrapper.CharacterDataContainer dataContainer = new CharacterDataWrapper.CharacterDataContainer();
         characterDataWrapper.setData(dataContainer);

@@ -10,6 +10,13 @@ import java.util.List;
 public class ComicDataWrapper {
     private ComicDataContainer data;
 
+    @Override
+    public String toString() {
+        return "ComicDataWrapper{" +
+                "data=" + data +
+                '}';
+    }
+
     @Getter
     @Setter
     public static class ComicDataContainer {

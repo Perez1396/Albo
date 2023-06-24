@@ -1,0 +1,77 @@
+{
+	"info": {
+		"_postman_id": "1311737e-a701-4730-a202-253c1177cff3",
+		"name": "Marvel Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6422147"
+	},
+	"item": [
+		{
+			"name": "Get character with comics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/public/character",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"public",
+						"character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get creators for Captain America",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/public/character/1009220/comics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"public",
+						"character",
+						"1009220",
+						"comics"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get creators for Iron Man",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/v1/public/character/1009368/comics",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"public",
+						"character",
+						"1009368",
+						"comics"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

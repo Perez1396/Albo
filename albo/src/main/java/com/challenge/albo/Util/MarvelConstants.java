@@ -9,6 +9,9 @@ public class MarvelConstants {
     public static final String EDITOR = "editor";
     public static final String WRITER = "writer";
     public static final String COLORIST = "colorist";
+    public static final String SERVER_ERROR = "Error en la comunicación con la API de Marve, intentelo de nuevo";
+
+
 
 
 
