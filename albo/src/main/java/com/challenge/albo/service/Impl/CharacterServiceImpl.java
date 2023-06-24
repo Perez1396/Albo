@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.challenge.albo.Util.MarvelConstants.CHARACTERS;
 
@@ -52,22 +53,29 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     private void syncCharacterWithDb(CharacterResponseWrapper characterResponseWrapper) {
+        List<CharacterDO> charactersToSave = characterResponseWrapper.getCharacters().stream()
+                .map(characterResponse -> {
+                    CharacterDO characterDO = new CharacterDO();
+                    characterDO.setCreated(LocalDate.now().atStartOfDay());
+                    characterDO.setLastSync(characterResponse.getLastSync().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+                    characterDO.setName(characterResponse.getName());
+                    syncComicWithDb(characterResponse.getComics());
+                    return characterDO;
+                })
+                .collect(Collectors.toList());
 
-        characterResponseWrapper.getCharacters().forEach(characterResponse -> {
-            CharacterDO characterDO = new CharacterDO();
-            characterDO.setCreated(LocalDate.now().atStartOfDay());
-            characterDO.setLastSync(characterResponse.getLastSync().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
-            characterDO.setName(characterResponse.getName());
-            syncComicWithDb(characterResponse.getComics());
-            characterRepository.save(characterDO);
-        });
+        characterRepository.saveAll(charactersToSave);
     }
 
     private void syncComicWithDb(List<String> comics) {
-        comics.forEach(c -> {
-            Comic comic = new Comic();
-            comic.setName(c);
-            comicRepository.save(comic);
-        });
+        List<Comic> comicsToSave = comics.stream()
+                .map(c -> {
+                    Comic comic = new Comic();
+                    comic.setName(c);
+                    return comic;
+                })
+                .collect(Collectors.toList());
+
+        comicRepository.saveAll(comicsToSave);
     }
 }

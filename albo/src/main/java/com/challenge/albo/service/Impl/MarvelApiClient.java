@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.NoSuchAlgorithmException;
+import java.util.stream.Collectors;
 
 public class MarvelApiClient {
     private static final String API_BASE_URL = "https://gateway.marvel.com/v1/public/";
@@ -18,23 +19,18 @@ public class MarvelApiClient {
     public static String sendRequest(String endpoint) throws IOException, NoSuchAlgorithmException {
         String fullUrl = API_BASE_URL + endpoint + "?apikey=" + API_PUBLIC_KEY;
         long timestamp = System.currentTimeMillis();
-        String hash = MD5Util.generateMD5Hash(timestamp+API_PRIVATE_KEY+API_PUBLIC_KEY);
+        String hash = MD5Util.generateMD5Hash(timestamp + API_PRIVATE_KEY + API_PUBLIC_KEY);
         fullUrl += "&ts=" + timestamp + "&hash=" + hash;
+
         URL url = new URL(fullUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
+
         int responseCode = connection.getResponseCode();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder response = new StringBuilder();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            response.append(line);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            return reader.lines().collect(Collectors.joining());
+        } finally {
+            connection.disconnect();
         }
-
-        reader.close();
-        connection.disconnect();
-
-        return response.toString();
     }
 }
