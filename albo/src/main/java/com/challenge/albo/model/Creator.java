@@ -21,9 +21,6 @@ public class Creator {
     @Column(name = "creator_type")
     private CreatorType type;
 
-    @ManyToMany(mappedBy = "creators")
-    Set<CharacterDO> characters;
-
     public Creator() {
     }
 

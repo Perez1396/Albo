@@ -6,8 +6,8 @@ import com.challenge.albo.mapper.CharacterMapper;
 import com.challenge.albo.model.CharacterDO;
 import com.challenge.albo.model.Comic;
 import com.challenge.albo.repository.CharacterRepository;
+import com.challenge.albo.repository.ComicRepository;
 import com.challenge.albo.service.CharacterService;
-import com.challenge.albo.service.MarvelApiClient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,17 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+
+import static com.challenge.albo.Util.MarvelConstants.CHARACTERS;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
     @Autowired
     CharacterRepository characterRepository;
+    @Autowired
+    ComicRepository comicRepository;
     private static Gson gson;
 
     @Override
@@ -32,7 +36,7 @@ public class CharacterServiceImpl implements CharacterService {
         CharacterDataWrapper character = new CharacterDataWrapper();
         gson = new GsonBuilder().create();
         try {
-            String response = MarvelApiClient.sendRequest("characters");
+            String response = MarvelApiClient.sendRequest(CHARACTERS);
             character = gson.fromJson(response, CharacterDataWrapper.class);
         } catch (IOException | NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -43,20 +47,27 @@ public class CharacterServiceImpl implements CharacterService {
     private CharacterResponseWrapper wrapperMapToCharacter(CharacterDataWrapper character) {
         CharacterResponseWrapper characterResponseWrapper = CharacterMapper.buildCharacter(character);
         characterResponseWrapper.setLastSync(new Date());
-        syncWithDb(characterResponseWrapper);
+        syncCharacterWithDb(characterResponseWrapper);
         return characterResponseWrapper;
     }
 
-    private void syncWithDb(CharacterResponseWrapper characterResponseWrapper) {
-        Set<Comic> comicSet;
+    private void syncCharacterWithDb(CharacterResponseWrapper characterResponseWrapper) {
 
         characterResponseWrapper.getCharacters().forEach(characterResponse -> {
             CharacterDO characterDO = new CharacterDO();
             characterDO.setCreated(LocalDate.now().atStartOfDay());
             characterDO.setLastSync(characterResponse.getLastSync().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
             characterDO.setName(characterResponse.getName());
-            characterDO.setComics();
+            syncComicWithDb(characterResponse.getComics());
             characterRepository.save(characterDO);
+        });
+    }
+
+    private void syncComicWithDb(List<String> comics) {
+        comics.forEach(c -> {
+            Comic comic = new Comic();
+            comic.setName(c);
+            comicRepository.save(comic);
         });
     }
 }

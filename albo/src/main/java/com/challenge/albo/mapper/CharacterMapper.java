@@ -3,9 +3,7 @@ package com.challenge.albo.mapper;
 import com.challenge.albo.dto.CharacterDataWrapper;
 import com.challenge.albo.dto.CharacterResponse;
 import com.challenge.albo.dto.CharacterResponseWrapper;
-import com.challenge.albo.model.CharacterDO;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +26,5 @@ public class CharacterMapper {
         });
         return characterResponseWrapper;
     }
-
 
 }
