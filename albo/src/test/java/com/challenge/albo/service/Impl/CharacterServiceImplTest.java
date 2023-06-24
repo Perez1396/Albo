@@ -15,8 +15,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -43,7 +41,7 @@ class CharacterServiceImplTest {
     }
 
     @Test
-    void getCharacterInformation_SuccessfulRequest_ReturnsCharacterResponseWrapper() throws IOException, NoSuchAlgorithmException {
+    void getCharacterInformation_SuccessfulRequest_ReturnsCharacterResponseWrapper() {
         CharacterDataWrapper characterDataWrapper = new CharacterDataWrapper();
         CharacterDataWrapper.CharacterDataContainer dataContainer = new CharacterDataWrapper.CharacterDataContainer();
         characterDataWrapper.setData(dataContainer);

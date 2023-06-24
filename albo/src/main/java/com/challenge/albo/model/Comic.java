@@ -17,10 +17,6 @@ public class Comic {
     private Long id;
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinTable(name = "character_comic", joinColumns = @JoinColumn(name = "pk_comic"), inverseJoinColumns = @JoinColumn(name = "pk_character"))
-    Set<CharacterDO> characters;
-
     public Comic() {
     }
 

@@ -22,12 +22,6 @@ public class CharacterDO {
     @Column(name = "dt_last_sync")
     private LocalDateTime lastSync;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "character_creator", joinColumns = @JoinColumn(name = "pk_character"), inverseJoinColumns = @JoinColumn(name = "pk_creator"))
-    private Set<Creator> creators;
-
-    @ManyToMany(mappedBy = "characters", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
-    private Set<Comic> comics;
 
     public CharacterDO() {
     }
